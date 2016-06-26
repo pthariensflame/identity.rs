@@ -21,7 +21,7 @@ description = "A stable Rust implementation of an identity (a.k.a., “equality 
 repository = "https://github.com/pthariensflame/identity.rs"
 readme = "README.md"
 license = "Apache-2.0"
-keywords = ["types"]
+keywords = ["types", "type-level", "equality"]
 
 [dependencies]
 
