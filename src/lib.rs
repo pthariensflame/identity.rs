@@ -32,6 +32,11 @@ mod aux {
   }
 }
 
+/// An identity type; that is, the type of “equality witnesses.”
+///
+/// This trait is not actually extensible; it relies on a hidden auxiliary trait to operate
+/// properly while maintaining its invariants.  It should instead be thought of as a semi-magical
+/// bound that all concrete equality witness types satisfy.
 pub trait Identity<A: ?Sized, B: ?Sized>: aux::IdentityAux<A, B> {
   fn conv(&self, x: A) -> B where A: Sized, B: Sized;
 
