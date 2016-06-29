@@ -16,6 +16,8 @@
 use std::marker::PhantomData;
 use std::fmt;
 
+pub mod lift;
+
 mod aux {
   pub trait IdentityAux<A: ?Sized, B: ?Sized> {
     type InverseAux: ?Sized + super::Identity<B, A, InverseAux = Self>;
@@ -28,7 +30,9 @@ mod aux {
 
     fn conv_box_aux(&self, x: Box<A>) -> Box<B>;
 
-    fn conv_gen_aux<Tc: super::HasParam<A, B>>(&self, x: Tc) -> Tc::SubstParam where Tc::SubstParam: Sized;
+    fn conv_under_aux<TF: super::lift::TyFun<A> + super::lift::TyFun<B>>
+      (&self, x: <TF as super::lift::TyFun<A>>::Result) -> <TF as super::lift::TyFun<B>>::Result
+      where <TF as super::lift::TyFun<A>>::Result: Sized, <TF as super::lift::TyFun<B>>::Result: Sized;
 
     fn inv_aux(&self) -> &Self::InverseAux;
   }
@@ -48,7 +52,8 @@ pub trait Identity<A: ?Sized, B: ?Sized>: aux::IdentityAux<A, B> {
 
   fn conv_box(&self, x: Box<A>) -> Box<B>;
 
-  fn conv_gen<Tc: HasParam<A, B>>(&self, x: Tc) -> Tc::SubstParam where Tc::SubstParam: Sized;
+  fn conv_under<TF: lift::TyFun<A> + lift::TyFun<B>>(&self, x: <TF as lift::TyFun<A>>::Result) -> <TF as lift::TyFun<B>>::Result
+    where <TF as lift::TyFun<A>>::Result: Sized, <TF as lift::TyFun<B>>::Result: Sized;
 
   fn inv(&self) -> &<Self as IdentityUtil<A, B>>::Inverse;
 }
@@ -65,9 +70,9 @@ impl<A: ?Sized, B: ?Sized, Ev: ?Sized + aux::IdentityAux<A, B>> Identity<A, B> f
 
   fn conv_box(&self, x: Box<A>) -> Box<B> { self.conv_box_aux(x) }
 
-  fn conv_gen<Tc: HasParam<A, B>>(&self, x: Tc) -> Tc::SubstParam
-    where Tc::SubstParam: Sized {
-    self.conv_gen_aux(x)
+  fn conv_under<TF: lift::TyFun<A> + lift::TyFun<B>>(&self, x: <TF as lift::TyFun<A>>::Result) -> <TF as lift::TyFun<B>>::Result
+    where <TF as lift::TyFun<A>>::Result: Sized, <TF as lift::TyFun<B>>::Result: Sized {
+    self.conv_under_aux::<TF>(x)
   }
 
   fn inv(&self) -> &Ev::InverseAux { self.inv_aux() }
@@ -109,9 +114,9 @@ impl<A: ?Sized> aux::IdentityAux<A, A> for Refl<A> {
 
   fn inv_aux(&self) -> &Self { self }
 
-  fn conv_gen_aux<Tc: HasParam<A, A>>(&self, x: Tc) -> Tc::SubstParam
-    where Tc::SubstParam: Sized {
-    x.conv_under(self)
+  fn conv_under_aux<TF: lift::TyFun<A>>(&self, x: TF::Result) -> TF::Result
+    where TF::Result: Sized {
+    x
   }
 }
 
@@ -125,36 +130,6 @@ impl<T: ?Sized> Equals<T> for T {
   type IdentityWitness = Refl<T>;
 
   fn identity_witness() -> Refl<T> { Refl::default() }
-}
-
-pub trait HasParam<OldParam: ?Sized, NewParam: ?Sized> {
-  type SubstParam: ?Sized + HasParam<NewParam, OldParam, SubstParam = Self>;
-
-  fn conv_under<Ev: Identity<OldParam, NewParam>>(self, ev: &Ev) -> Self::SubstParam where Self: Sized, Self::SubstParam: Sized;
-}
-
-impl<'a, OldParam: ?Sized + 'a, NewParam: ?Sized + 'a> HasParam<OldParam, NewParam> for &'a OldParam {
-  type SubstParam = &'a NewParam;
-
-  fn conv_under<Ev: Identity<OldParam, NewParam>>(self, ev: &Ev) -> Self::SubstParam {
-    ev.conv_ref(self)
-  }
-}
-
-impl<'a, OldParam: ?Sized + 'a, NewParam: ?Sized + 'a> HasParam<OldParam, NewParam> for &'a mut OldParam {
-  type SubstParam = &'a mut NewParam;
-
-  fn conv_under<Ev: Identity<OldParam, NewParam>>(self, ev: &Ev) -> Self::SubstParam {
-    ev.conv_mut(self)
-  }
-}
-
-impl<OldParam: ?Sized, NewParam: ?Sized> HasParam<OldParam, NewParam> for Box<OldParam> {
-  type SubstParam = Box<NewParam>;
-
-  fn conv_under<Ev: Identity<OldParam, NewParam>>(self, ev: &Ev) -> Self::SubstParam {
-    ev.conv_box(self)
-  }
 }
 
 #[cfg(test)]

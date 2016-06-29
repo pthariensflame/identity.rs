@@ -15,7 +15,7 @@
 
 [package]
 name = "identity"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["Alexander Ronald Altman <alexanderaltman@me.com>"]
 description = "A stable Rust implementation of an identity (a.k.a., “equality witness”) type."
 repository = "https://github.com/pthariensflame/identity.rs"
