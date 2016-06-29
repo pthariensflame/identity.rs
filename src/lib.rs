@@ -18,7 +18,7 @@ use std::fmt;
 
 mod aux {
   pub trait IdentityAux<A: ?Sized, B: ?Sized> {
-    type Inverse: super::Identity<B, A>;
+    type InverseAux: ?Sized + super::Identity<B, A, InverseAux = Self>;
 
     fn conv_aux(&self, x: A) -> B where A: Sized, B: Sized;
 
@@ -28,7 +28,9 @@ mod aux {
 
     fn conv_box_aux(&self, x: Box<A>) -> Box<B>;
 
-    fn inv_aux(&self) -> &Self::Inverse;
+    fn conv_gen_aux<Tc: super::HasParam<A, B>>(&self, x: Tc) -> Tc::SubstParam where Tc::SubstParam: Sized;
+
+    fn inv_aux(&self) -> &Self::InverseAux;
   }
 }
 
@@ -46,7 +48,9 @@ pub trait Identity<A: ?Sized, B: ?Sized>: aux::IdentityAux<A, B> {
 
   fn conv_box(&self, x: Box<A>) -> Box<B>;
 
-  fn inv(&self) -> &Self::Inverse;
+  fn conv_gen<Tc: HasParam<A, B>>(&self, x: Tc) -> Tc::SubstParam where Tc::SubstParam: Sized;
+
+  fn inv(&self) -> &<Self as IdentityUtil<A, B>>::Inverse;
 }
 
 impl<A: ?Sized, B: ?Sized, Ev: ?Sized + aux::IdentityAux<A, B>> Identity<A, B> for Ev {
@@ -61,7 +65,20 @@ impl<A: ?Sized, B: ?Sized, Ev: ?Sized + aux::IdentityAux<A, B>> Identity<A, B> f
 
   fn conv_box(&self, x: Box<A>) -> Box<B> { self.conv_box_aux(x) }
 
-  fn inv(&self) -> &Ev::Inverse { self.inv_aux() }
+  fn conv_gen<Tc: HasParam<A, B>>(&self, x: Tc) -> Tc::SubstParam
+    where Tc::SubstParam: Sized {
+    self.conv_gen_aux(x)
+  }
+
+  fn inv(&self) -> &Ev::InverseAux { self.inv_aux() }
+}
+
+pub trait IdentityUtil<A: ?Sized, B: ?Sized>: Identity<A, B> {
+  type Inverse: ?Sized + Identity<B, A>;
+}
+
+impl<A: ?Sized, B: ?Sized, Ev: ?Sized + Identity<A, B>> IdentityUtil<A, B> for Ev {
+  type Inverse = Self::InverseAux;
 }
 
 pub struct Refl<A: ?Sized> {
@@ -77,7 +94,7 @@ impl<A: ?Sized> fmt::Debug for Refl<A> {
 }
 
 impl<A: ?Sized> aux::IdentityAux<A, A> for Refl<A> {
-  type Inverse = Self;
+  type InverseAux = Self;
 
   fn conv_aux(&self, x: A) -> A
     where A: Sized {
@@ -91,6 +108,11 @@ impl<A: ?Sized> aux::IdentityAux<A, A> for Refl<A> {
   fn conv_box_aux(&self, x: Box<A>) -> Box<A> { x }
 
   fn inv_aux(&self) -> &Self { self }
+
+  fn conv_gen_aux<Tc: HasParam<A, A>>(&self, x: Tc) -> Tc::SubstParam
+    where Tc::SubstParam: Sized {
+    x.conv_under(self)
+  }
 }
 
 pub trait Equals<Other: ?Sized> {
@@ -103,6 +125,36 @@ impl<T: ?Sized> Equals<T> for T {
   type IdentityWitness = Refl<T>;
 
   fn identity_witness() -> Refl<T> { Refl::default() }
+}
+
+pub trait HasParam<OldParam: ?Sized, NewParam: ?Sized> {
+  type SubstParam: ?Sized + HasParam<NewParam, OldParam, SubstParam = Self>;
+
+  fn conv_under<Ev: Identity<OldParam, NewParam>>(self, ev: &Ev) -> Self::SubstParam where Self: Sized, Self::SubstParam: Sized;
+}
+
+impl<'a, OldParam: ?Sized + 'a, NewParam: ?Sized + 'a> HasParam<OldParam, NewParam> for &'a OldParam {
+  type SubstParam = &'a NewParam;
+
+  fn conv_under<Ev: Identity<OldParam, NewParam>>(self, ev: &Ev) -> Self::SubstParam {
+    ev.conv_ref(self)
+  }
+}
+
+impl<'a, OldParam: ?Sized + 'a, NewParam: ?Sized + 'a> HasParam<OldParam, NewParam> for &'a mut OldParam {
+  type SubstParam = &'a mut NewParam;
+
+  fn conv_under<Ev: Identity<OldParam, NewParam>>(self, ev: &Ev) -> Self::SubstParam {
+    ev.conv_mut(self)
+  }
+}
+
+impl<OldParam: ?Sized, NewParam: ?Sized> HasParam<OldParam, NewParam> for Box<OldParam> {
+  type SubstParam = Box<NewParam>;
+
+  fn conv_under<Ev: Identity<OldParam, NewParam>>(self, ev: &Ev) -> Self::SubstParam {
+    ev.conv_box(self)
+  }
 }
 
 #[cfg(test)]
