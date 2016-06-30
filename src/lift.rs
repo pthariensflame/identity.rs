@@ -34,13 +34,14 @@ impl<Param: ?Sized> TyFun<Param> for Id {
 }
 
 pub trait ForAll<TF> {
-  fn call<A>(x: A) -> TF::Result where TF: TyFun<A>, TF::Result: Sized;
+  fn call<A>(self, x: A) -> TF::Result where TF: TyFun<A>, TF::Result: Sized;
 }
 
-pub trait Exists<TF> where TF: TyFun<Self::A>, TF::Result: Sized {
+pub trait Exists<TF>
+  where TF: TyFun<Self::A>, TF::Result: Sized {
   type A;
-  
-  fn fst() -> Self::A;
-  
-  fn snd() -> TF::Result;
+
+  fn fst(self) -> Self::A;
+
+  fn snd(self) -> TF::Result;
 }

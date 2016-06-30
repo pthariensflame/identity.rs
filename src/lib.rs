@@ -18,6 +18,8 @@ use std::fmt;
 
 pub mod lift;
 
+pub mod helpers;
+
 mod aux {
   pub trait IdentityAux<A: ?Sized, B: ?Sized> {
     type InverseAux: ?Sized + super::Identity<B, A, InverseAux = Self>;
@@ -35,6 +37,10 @@ mod aux {
       where <TF as super::lift::TyFun<A>>::Result: Sized, <TF as super::lift::TyFun<B>>::Result: Sized;
 
     fn inv_aux(&self) -> &Self::InverseAux;
+
+    fn elim_aux<Prop: super::lift::TyFun<super::Refl<A>> + super::lift::TyFun<Self>>
+      (&self, refl_case: <Prop as super::lift::TyFun<super::Refl<A>>>::Result) -> <Prop as super::lift::TyFun<Self>>::Result
+      where <Prop as super::lift::TyFun<super::Refl<A>>>::Result: Sized, <Prop as super::lift::TyFun<Self>>::Result: Sized;
   }
 }
 
@@ -56,6 +62,12 @@ pub trait Identity<A: ?Sized, B: ?Sized>: aux::IdentityAux<A, B> {
     where <TF as lift::TyFun<A>>::Result: Sized, <TF as lift::TyFun<B>>::Result: Sized;
 
   fn inv(&self) -> &<Self as IdentityUtil<A, B>>::Inverse;
+
+  /// Paulin-Mohring's J rule, approximately.
+  fn elim<Prop: lift::TyFun<Refl<A>> + lift::TyFun<Self>>(&self,
+                                                          refl_case: <Prop as lift::TyFun<Refl<A>>>::Result)
+                                                          -> <Prop as lift::TyFun<Self>>::Result
+    where <Prop as lift::TyFun<Refl<A>>>::Result: Sized, <Prop as lift::TyFun<Self>>::Result: Sized;
 }
 
 impl<A: ?Sized, B: ?Sized, Ev: ?Sized + aux::IdentityAux<A, B>> Identity<A, B> for Ev {
@@ -76,6 +88,13 @@ impl<A: ?Sized, B: ?Sized, Ev: ?Sized + aux::IdentityAux<A, B>> Identity<A, B> f
   }
 
   fn inv(&self) -> &Ev::InverseAux { self.inv_aux() }
+
+  fn elim<Prop: lift::TyFun<Refl<A>> + lift::TyFun<Ev>>(&self,
+                                                        refl_case: <Prop as lift::TyFun<Refl<A>>>::Result)
+                                                        -> <Prop as lift::TyFun<Ev>>::Result
+    where <Prop as lift::TyFun<Refl<A>>>::Result: Sized, <Prop as lift::TyFun<Ev>>::Result: Sized {
+    self.elim_aux::<Prop>(refl_case)
+  }
 }
 
 pub trait IdentityUtil<A: ?Sized, B: ?Sized>: Identity<A, B> {
@@ -90,12 +109,20 @@ pub struct Refl<A: ?Sized> {
   phantom_fn: PhantomData<fn(A) -> A>,
 }
 
-impl<A: ?Sized> Default for Refl<A> {
-  fn default() -> Refl<A> { Refl { phantom_fn: PhantomData } }
-}
-
 impl<A: ?Sized> fmt::Debug for Refl<A> {
   fn fmt(&self, fmtr: &mut fmt::Formatter) -> fmt::Result { fmtr.debug_struct("Refl").field("phantom_fn", &self.phantom_fn).finish() }
+}
+
+impl<A: ?Sized> Clone for Refl<A> {
+  fn clone(&self) -> Refl<A> { Refl { phantom_fn: self.phantom_fn } }
+
+  fn clone_from(&mut self, source: &Refl<A>) { self.phantom_fn.clone_from(&source.phantom_fn); }
+}
+
+impl<A: ?Sized> Copy for Refl<A> {}
+
+impl<A: ?Sized> Default for Refl<A> {
+  fn default() -> Refl<A> { Refl { phantom_fn: PhantomData } }
 }
 
 impl<A: ?Sized> aux::IdentityAux<A, A> for Refl<A> {
@@ -117,6 +144,11 @@ impl<A: ?Sized> aux::IdentityAux<A, A> for Refl<A> {
   fn conv_under_aux<TF: lift::TyFun<A>>(&self, x: TF::Result) -> TF::Result
     where TF::Result: Sized {
     x
+  }
+
+  fn elim_aux<Prop: lift::TyFun<Refl<A>>>(&self, refl_case: Prop::Result) -> Prop::Result
+    where Prop::Result: Sized {
+    refl_case
   }
 }
 
