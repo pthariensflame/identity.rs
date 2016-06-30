@@ -32,3 +32,15 @@ pub fn id() -> Id { Id }
 impl<Param: ?Sized> TyFun<Param> for Id {
   type Result = Param;
 }
+
+pub trait ForAll<TF> {
+  fn call<A>(x: A) -> TF::Result where TF: TyFun<A>, TF::Result: Sized;
+}
+
+pub trait Exists<TF> where TF: TyFun<Self::A>, TF::Result: Sized {
+  type A;
+  
+  fn fst() -> Self::A;
+  
+  fn snd() -> TF::Result;
+}
