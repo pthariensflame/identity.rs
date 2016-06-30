@@ -6,7 +6,7 @@ pub trait LiFun<'param>: Sized {
   type Result: ?Sized;
 }
 
-#[derive(Debug,Clone,Copy,Default)]
+#[derive(Debug,Clone,Copy,Default,Hash)]
 pub struct Compose<TFa, TFb> {
   tf_a: TFa,
   tf_b: TFb,
@@ -24,7 +24,7 @@ impl<'param, TFa, TFb> LiFun<'param> for Compose<TFa, TFb>
   type Result = TFb::Result;
 }
 
-#[derive(Debug,Clone,Copy,Default)]
+#[derive(Debug,Clone,Copy,Default,Hash)]
 pub struct Id;
 
 pub fn id() -> Id { Id }
