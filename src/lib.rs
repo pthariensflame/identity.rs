@@ -60,6 +60,7 @@ pub trait Identity<A: ?Sized, B: ?Sized>: aux::IdentityAux<A, B> {
 
   fn conv_box(&self, x: Box<A>) -> Box<B>;
 
+  /// Leibniz's identity rule, approximately.
   fn conv_under<TF: lift::TyFun<A> + lift::TyFun<B>>(&self, x: <TF as lift::TyFun<A>>::Result) -> <TF as lift::TyFun<B>>::Result
     where <TF as lift::TyFun<A>>::Result: Sized, <TF as lift::TyFun<B>>::Result: Sized;
 
