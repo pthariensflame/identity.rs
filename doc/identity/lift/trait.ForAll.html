@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `IdentityUtil` trait in crate `identity`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, IdentityUtil">
+    <meta name="description" content="API documentation for the Rust `ForAll` trait in crate `identity`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ForAll">
 
-    <title>identity::IdentityUtil - Rust</title>
+    <title>identity::lift::ForAll - Rust</title>
 
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
     
@@ -28,7 +28,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='index.html'>identity</a></p><script>window.sidebarCurrent = {name: 'IdentityUtil', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'><a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a></p><script>window.sidebarCurrent = {name: 'ForAll', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -43,21 +43,21 @@
     </nav>
 
     <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>identity</a>::<wbr><a class='trait' href=''>IdentityUtil</a></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a>::<wbr><a class='trait' href=''>ForAll</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-554' class='srclink' href='../src/identity/src/lib.rs.html#103-105' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait IdentityUtil&lt;A: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>, B: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>&gt;: <a class='trait' href='../identity/trait.Identity.html' title='identity::Identity'>Identity</a>&lt;A, B&gt; {
-    type <a href='#associatedtype.Inverse' class='type'>Inverse</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> + <a class='trait' href='../identity/trait.Identity.html' title='identity::Identity'>Identity</a>&lt;B, A&gt;;
+               </span><a id='src-454' class='srclink' href='../../src/identity/src/lift.rs.html#249-251' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait ForAll&lt;TF&gt; {
+    fn <a href='#tymethod.call' class='fnname'>call</a>&lt;A&gt;(self, x: A) -&gt; TF::Result <span class='where'>where TF: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;A&gt;, TF::Result: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span>;
 }</pre>
-            <h2 id='associated-types'>Associated Types</h2>
+            <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='associatedtype.Inverse' class='method stab '><code>type <a href='#associatedtype.Inverse' class='type'>Inverse</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> + <a class='trait' href='../identity/trait.Identity.html' title='identity::Identity'>Identity</a>&lt;B, A&gt;</code></h3></div>
+        <h3 id='tymethod.call' class='method stab '><code>fn <a href='#tymethod.call' class='fnname'>call</a>&lt;A&gt;(self, x: A) -&gt; TF::Result <span class='where'>where TF: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;A&gt;, TF::Result: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span></code></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
     </ul><script type="text/javascript" async
-                         src="../implementors/identity/trait.IdentityUtil.js">
+                         src="../../implementors/identity/lift/trait.ForAll.js">
                  </script></section>
     <section id='search' class="content hidden"></section>
 
@@ -110,13 +110,13 @@
     
 
     <script>
-        window.rootPath = "../";
+        window.rootPath = "../../";
         window.currentCrate = "identity";
         window.playgroundUrl = "";
     </script>
-    <script src="../jquery.js"></script>
-    <script src="../main.js"></script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
     
-    <script defer src="../search-index.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>

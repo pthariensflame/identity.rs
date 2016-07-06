@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `IdentityUtil` trait in crate `identity`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, IdentityUtil">
+    <meta name="description" content="API documentation for the Rust `ty_ap` fn in crate `identity`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ty_ap">
 
-    <title>identity::IdentityUtil - Rust</title>
+    <title>identity::lift::ty_ap - Rust</title>
 
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
     
@@ -28,7 +28,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='index.html'>identity</a></p><script>window.sidebarCurrent = {name: 'IdentityUtil', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'><a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a></p><script>window.sidebarCurrent = {name: 'ty_ap', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,23 +42,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>identity</a>::<wbr><a class='trait' href=''>IdentityUtil</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content fn">
+<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a>::<wbr><a class='fn' href=''>ty_ap</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-554' class='srclink' href='../src/identity/src/lib.rs.html#103-105' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait IdentityUtil&lt;A: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>, B: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>&gt;: <a class='trait' href='../identity/trait.Identity.html' title='identity::Identity'>Identity</a>&lt;A, B&gt; {
-    type <a href='#associatedtype.Inverse' class='type'>Inverse</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> + <a class='trait' href='../identity/trait.Identity.html' title='identity::Identity'>Identity</a>&lt;B, A&gt;;
-}</pre>
-            <h2 id='associated-types'>Associated Types</h2>
-            <div class='methods'>
-        <h3 id='associatedtype.Inverse' class='method stab '><code>type <a href='#associatedtype.Inverse' class='type'>Inverse</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> + <a class='trait' href='../identity/trait.Identity.html' title='identity::Identity'>Identity</a>&lt;B, A&gt;</code></h3></div>
-        <h2 id='implementors'>Implementors</h2>
-        <ul class='item-list' id='implementors-list'>
-    </ul><script type="text/javascript" async
-                         src="../implementors/identity/trait.IdentityUtil.js">
-                 </script></section>
+               </span><a id='src-293' class='srclink' href='../../src/identity/src/lift.rs.html#154' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn ty_ap&lt;F, G&gt;(f: F, g: G) -&gt; <a class='struct' href='../../identity/lift/struct.Ap.html' title='identity::lift::Ap'>Ap</a>&lt;F, G&gt;</pre></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -110,13 +100,13 @@
     
 
     <script>
-        window.rootPath = "../";
+        window.rootPath = "../../";
         window.currentCrate = "identity";
         window.playgroundUrl = "";
     </script>
-    <script src="../jquery.js"></script>
-    <script src="../main.js"></script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
     
-    <script defer src="../search-index.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>
