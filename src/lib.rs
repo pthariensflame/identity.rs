@@ -18,8 +18,6 @@ use std::{fmt, hash};
 
 pub mod lift;
 
-pub mod helpers;
-
 mod aux {
   pub trait IdentityAux<A: ?Sized, B: ?Sized> {
     type InverseAux: ?Sized + super::Identity<B, A, InverseAux = Self>;
