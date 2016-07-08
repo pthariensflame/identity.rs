@@ -78,14 +78,19 @@ impl<'param, F: TyFun<LiToTy<'param>>> LiFun<'param> for TyFunToLiFun<F> {
   type Result = F::Result;
 }
 
-/// Type-level function composition.
+/// Type-level function composition (traditional order).
 #[derive(Debug,Clone,Copy,Default,Hash)]
 pub struct Compose<TFa, TFb> {
   tf_a: TFa,
   tf_b: TFb,
 }
 
+/// Type-level function composition (intuitive order).
+pub type AndThen<TFa, TFb> = Compose<TFb, TFa>;
+
 pub fn ty_compose<TFa, TFb>(tf_a: TFa, tf_b: TFb) -> Compose<TFa, TFb> { Compose { tf_a: tf_a, tf_b: tf_b } }
+
+pub fn ty_and_then<TFa, TFb>(tf_a: TFa, tf_b: TFb) -> AndThen<TFa, TFb> { Compose { tf_a: tf_b, tf_b: tf_a } }
 
 impl<Param: ?Sized, TFa, TFb> TyFun<Param> for Compose<TFa, TFb>
   where TFa: TyFun<Param>, TFb: TyFun<TFa::Result> {
