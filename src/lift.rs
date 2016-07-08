@@ -13,6 +13,10 @@ impl<'x, Param: ?Sized, F: TyFun<Param>> TyFun<Param> for &'x mut F {
   type Result = F::Result;
 }
 
+impl<Param: ?Sized, F: TyFun<Param>> TyFun<Param> for Box<F> {
+  type Result = F::Result;
+}
+
 pub trait LiFun<'param>: Sized {
   type Result: ?Sized;
 }
@@ -25,30 +29,34 @@ impl<'x, 'param, F: LiFun<'param>> LiFun<'param> for &'x mut F {
   type Result = F::Result;
 }
 
+impl<'param, F: LiFun<'param>> LiFun<'param> for Box<F> {
+  type Result = F::Result;
+}
+
 pub struct LiToTy<'param> {
-  phantom_rf: PhantomData<&'param ()>,
+  phantom_fn: PhantomData<fn(&'param ()) -> &'param ()>,
 }
 
 impl<'param> fmt::Debug for LiToTy<'param> {
-  fn fmt(&self, fmtr: &mut fmt::Formatter) -> fmt::Result { fmtr.debug_struct("LiToTy").field("phantom_rf", &self.phantom_rf).finish() }
+  fn fmt(&self, fmtr: &mut fmt::Formatter) -> fmt::Result { fmtr.debug_struct("LiToTy").field("phantom_fn", &self.phantom_fn).finish() }
 }
 
 impl<'param> Clone for LiToTy<'param> {
-  fn clone(&self) -> Self { LiToTy { phantom_rf: self.phantom_rf.clone() } }
+  fn clone(&self) -> Self { LiToTy { phantom_fn: self.phantom_fn.clone() } }
 
-  fn clone_from(&mut self, source: &Self) { self.phantom_rf.clone_from(&source.phantom_rf); }
+  fn clone_from(&mut self, source: &Self) { self.phantom_fn.clone_from(&source.phantom_fn); }
 }
 
 impl<'param> Copy for LiToTy<'param> {}
 
 impl<'param> Default for LiToTy<'param> {
-  fn default() -> Self { LiToTy { phantom_rf: PhantomData::default() } }
+  fn default() -> Self { LiToTy { phantom_fn: PhantomData::default() } }
 }
 
 impl<'param> hash::Hash for LiToTy<'param> {
   fn hash<H>(&self, state: &mut H)
     where H: hash::Hasher {
-    self.phantom_rf.hash(state);
+    self.phantom_fn.hash(state);
   }
 }
 
@@ -195,7 +203,7 @@ pub struct Flipped<F, ParamB: ?Sized> {
 
 impl<F: fmt::Debug, ParamB: ?Sized> fmt::Debug for Flipped<F, ParamB> {
   fn fmt(&self, fmtr: &mut fmt::Formatter) -> fmt::Result {
-    fmtr.debug_struct("LiToTy").field("inner", &self.inner).field("phantom_fn", &self.phantom_fn).finish()
+    fmtr.debug_struct("Flipped").field("inner", &self.inner).field("phantom_fn", &self.phantom_fn).finish()
   }
 }
 
@@ -257,6 +265,95 @@ pub trait Exists<TF>
   fn fst(self) -> Self::A;
 
   fn snd(self) -> TF::Result;
+}
+
+mod aux {
+  pub trait TyListAux: Sized + ::std::fmt::Debug + Clone + Copy + Default + ::std::hash::Hash {}
+}
+
+pub trait TyList: aux::TyListAux {}
+
+impl<L: aux::TyListAux> TyList for L {}
+
+#[derive(Debug,Clone,Copy,Default,Hash)]
+pub struct Nil;
+
+impl aux::TyListAux for Nil {}
+
+pub struct Cons<A: ?Sized, As: TyList> {
+  phantom_fn: PhantomData<fn(A) -> A>,
+  rest: As,
+}
+
+impl<A: ?Sized, As: TyList> fmt::Debug for Cons<A, As> {
+  fn fmt(&self, fmtr: &mut fmt::Formatter) -> fmt::Result {
+    fmtr.debug_struct("Cons").field("phantom_fn", &self.phantom_fn).field("rest", &self.rest).finish()
+  }
+}
+
+impl<A: ?Sized, As: TyList> Clone for Cons<A, As> {
+  fn clone(&self) -> Self {
+    Cons {
+      phantom_fn: self.phantom_fn.clone(),
+      rest: self.rest.clone(),
+    }
+  }
+
+  fn clone_from(&mut self, source: &Self) {
+    self.phantom_fn.clone_from(&source.phantom_fn);
+    self.rest.clone_from(&source.rest);
+  }
+}
+
+impl<A: ?Sized, As: TyList> Copy for Cons<A, As> {}
+
+impl<A: ?Sized, As: TyList> Default for Cons<A, As> {
+  fn default() -> Self {
+    Cons {
+      phantom_fn: PhantomData::default(),
+      rest: As::default(),
+    }
+  }
+}
+
+impl<A: ?Sized, As: TyList> hash::Hash for Cons<A, As> {
+  fn hash<H>(&self, state: &mut H)
+    where H: hash::Hasher {
+    self.phantom_fn.hash(state);
+    self.rest.hash(state);
+  }
+}
+
+impl<A: ?Sized, As: TyList> aux::TyListAux for Cons<A, As> {}
+
+// waiting on rust-lang/rust#34303 to allow lifetimes as well as types
+#[macro_export]
+macro_rules! ty_list {
+  () => { $crate::lift::Nil };
+  ($A:ty, $As:tt) => { $crate::lift::Cons<$A, ty_list!($As)> };
+}
+
+pub trait TysFun<Params: TyList> {
+  type Result: ?Sized;
+}
+
+impl<R: ?Sized> TysFun<Nil> for R {
+  type Result = R;
+}
+
+impl<Param: ?Sized, Params: TyList, F: TyFun<Param>> TysFun<Cons<Param, Params>> for F
+  where F::Result: TysFun<Params> {
+  type Result = <F::Result as TysFun<Params>>::Result;
+}
+
+pub type TyPair<A: ?Sized, B: ?Sized> = Cons<A, Cons<B, Nil>>;
+
+pub trait TyFun2<A: ?Sized, B: ?Sized>: Sized + TysFun<TyPair<A, B>> {
+  type Result: ?Sized;
+}
+
+impl<A: ?Sized, B: ?Sized, F: TysFun<TyPair<A, B>>> TyFun2<A, B> for F {
+  type Result = F::Result;
 }
 
 #[cfg(test)]
