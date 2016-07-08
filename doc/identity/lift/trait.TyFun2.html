@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `helpers` mod in crate `identity`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, helpers">
+    <meta name="description" content="API documentation for the Rust `TyFun2` trait in crate `identity`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, TyFun2">
 
-    <title>identity::helpers - Rust</title>
+    <title>identity::lift::TyFun2 - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
@@ -28,7 +28,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>identity</a></p><script>window.sidebarCurrent = {name: 'helpers', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+        <p class='location'><a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a></p><script>window.sidebarCurrent = {name: 'TyFun2', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,13 +42,24 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>identity</a>::<wbr><a class='mod' href=''>helpers</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a>::<wbr><a class='trait' href=''>TyFun2</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-467' class='srclink' href='../../src/identity/src/helpers.rs.html#1' title='goto source code'>[src]</a></span></h1>
-</table></section>
+               </span><a id='src-560' class='srclink' href='../../src/identity/src/lift.rs.html#356-358' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait TyFun2&lt;A: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>, B: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>&gt;: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> + <a class='trait' href='../../identity/lift/trait.TysFun.html' title='identity::lift::TysFun'>TysFun</a>&lt;<a class='type' href='../../identity/lift/type.TyPair.html' title='identity::lift::TyPair'>TyPair</a>&lt;A, B&gt;&gt; {
+    type <a href='#associatedtype.Result' class='type'>Result</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>;
+}</pre>
+            <h2 id='associated-types'>Associated Types</h2>
+            <div class='methods'>
+        <h3 id='associatedtype.Result' class='method stab '><code>type <a href='#associatedtype.Result' class='type'>Result</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></code></h3></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl&lt;A: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>, B: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>, F: <a class='trait' href='../../identity/lift/trait.TysFun.html' title='identity::lift::TysFun'>TysFun</a>&lt;<a class='type' href='../../identity/lift/type.TyPair.html' title='identity::lift::TyPair'>TyPair</a>&lt;A, B&gt;&gt;&gt; TyFun2&lt;A, B&gt; for F</code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/identity/lift/trait.TyFun2.js">
+                 </script></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -71,6 +82,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

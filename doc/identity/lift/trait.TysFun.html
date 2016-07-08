@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `ty_flip` fn in crate `identity`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, ty_flip">
+    <meta name="description" content="API documentation for the Rust `TysFun` trait in crate `identity`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, TysFun">
 
-    <title>identity::lift::ty_flip - Rust</title>
+    <title>identity::lift::TysFun - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
@@ -28,7 +28,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a></p><script>window.sidebarCurrent = {name: 'ty_flip', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'><a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a></p><script>window.sidebarCurrent = {name: 'TysFun', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,13 +42,25 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a>::<wbr><a class='fn' href=''>ty_flip</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a>::<wbr><a class='trait' href=''>TysFun</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-447' class='srclink' href='../../src/identity/src/lift.rs.html#253' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn ty_flip&lt;F&gt;(f: F) -&gt; <a class='struct' href='../../identity/lift/struct.Flip.html' title='identity::lift::Flip'>Flip</a>&lt;F&gt;</pre></section>
+               </span><a id='src-546' class='srclink' href='../../src/identity/src/lift.rs.html#341-343' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait TysFun&lt;Params: <a class='trait' href='../../identity/lift/trait.TyList.html' title='identity::lift::TyList'>TyList</a>&gt; {
+    type <a href='#associatedtype.Result' class='type'>Result</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>;
+}</pre>
+            <h2 id='associated-types'>Associated Types</h2>
+            <div class='methods'>
+        <h3 id='associatedtype.Result' class='method stab '><code>type <a href='#associatedtype.Result' class='type'>Result</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></code></h3></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl&lt;R: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>&gt; TysFun&lt;<a class='struct' href='../../identity/lift/struct.Nil.html' title='identity::lift::Nil'>Nil</a>&gt; for R</code></li>
+<li><code>impl&lt;Param: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>, Params: <a class='trait' href='../../identity/lift/trait.TyList.html' title='identity::lift::TyList'>TyList</a>, F: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;Param&gt;&gt; TysFun&lt;<a class='struct' href='../../identity/lift/struct.Cons.html' title='identity::lift::Cons'>Cons</a>&lt;Param, Params&gt;&gt; for F <span class='where'>where F::Result: <a class='trait' href='../../identity/lift/trait.TysFun.html' title='identity::lift::TysFun'>TysFun</a>&lt;Params&gt;</span></code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/identity/lift/trait.TysFun.js">
+                 </script></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

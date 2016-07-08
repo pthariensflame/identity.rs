@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `ty_flip` fn in crate `identity`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, ty_flip">
+    <meta name="description" content="API documentation for the Rust `TyPair` type in crate `identity`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, TyPair">
 
-    <title>identity::lift::ty_flip - Rust</title>
+    <title>identity::lift::TyPair - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
@@ -28,7 +28,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a></p><script>window.sidebarCurrent = {name: 'ty_flip', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'><a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a></p><script>window.sidebarCurrent = {name: 'TyPair', ty: 'type', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,13 +42,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a>::<wbr><a class='fn' href=''>ty_flip</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content type">
+<h1 class='fqn'><span class='in-band'><a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a>::<wbr><a class='type' href=''>TyPair</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-447' class='srclink' href='../../src/identity/src/lift.rs.html#253' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn ty_flip&lt;F&gt;(f: F) -&gt; <a class='struct' href='../../identity/lift/struct.Flip.html' title='identity::lift::Flip'>Flip</a>&lt;F&gt;</pre></section>
+               </span><a id='src-557' class='srclink' href='../../src/identity/src/lift.rs.html#354' title='goto source code'>[src]</a></span></h1>
+<pre class='rust typedef'>type TyPair&lt;A: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>, B: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>&gt; = <a class='struct' href='../../identity/lift/struct.Cons.html' title='identity::lift::Cons'>Cons</a>&lt;A, <a class='struct' href='../../identity/lift/struct.Cons.html' title='identity::lift::Cons'>Cons</a>&lt;B, <a class='struct' href='../../identity/lift/struct.Nil.html' title='identity::lift::Nil'>Nil</a>&gt;&gt;;</pre></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

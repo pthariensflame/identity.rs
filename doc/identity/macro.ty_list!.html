@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `identity` crate.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, identity">
+    <meta name="description" content="API documentation for the Rust `ty_list!` macro in crate `identity`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ty_list!">
 
-    <title>identity - Rust</title>
+    <title>identity::ty_list! - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
@@ -28,7 +28,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'></p><script>window.sidebarCurrent = {name: 'identity', ty: 'mod', relpath: '../'};</script>
+        <p class='location'><a href='index.html'>identity</a></p><script>window.sidebarCurrent = {name: 'ty_list!', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,52 +42,18 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>identity</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content macro">
+<h1 class='fqn'><span class='in-band'><a href='index.html'>identity</a>::<wbr><a class='macro' href=''>ty_list!</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/identity/src/lib.rs.html#16-179' title='goto source code'>[src]</a></span></h1>
-<h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class='mod' href='lift/index.html'
-                                  title='identity::lift'>lift</a></td>
-                           <td class='docblock short'>
-                                
-                           </td>
-                       </tr></table><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class='macro' href='macro.ty_list!.html'
-                                  title='identity::ty_list!'>ty_list!</a></td>
-                           <td class='docblock short'>
-                                
-                           </td>
-                       </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Refl.html'
-                                  title='identity::Refl'>Refl</a></td>
-                           <td class='docblock short'>
-                                
-                           </td>
-                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class='trait' href='trait.Equals.html'
-                                  title='identity::Equals'>Equals</a></td>
-                           <td class='docblock short'>
-                                
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='trait' href='trait.Identity.html'
-                                  title='identity::Identity'>Identity</a></td>
-                           <td class='docblock short'>
-                                <p>An identity type; that is, the type of “equality witnesses.”</p>
-                           </td>
-                       </tr></table></section>
+               </span><a id='src-718' class='srclink' href='../src/identity/src/lift.rs.html#336-339' title='goto source code'>[src]</a></span></h1>
+<pre class='rust macro'>
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>ty_list</span> {
+    () <span class='op'>=&gt;</span> { ... };
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>A</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>As</span>:<span class='ident'>tt</span>) <span class='op'>=&gt;</span> { ... };
+}</pre>
+</section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-23' class='srclink' href='../../src/identity/src/lift.rs.html#16-18' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-27' class='srclink' href='../../src/identity/src/lift.rs.html#20-22' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait LiFun&lt;'param&gt;: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> {
     type <a href='#associatedtype.Result' class='type'>Result</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>;
 }</pre>
@@ -56,12 +56,13 @@
         <h3 id='associatedtype.Result' class='method stab '><code>type <a href='#associatedtype.Result' class='type'>Result</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></code></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl&lt;'x, 'param, F: <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt;&gt; <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt; for &amp;'x F</code></li>
-<li><code>impl&lt;'x, 'param, F: <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt;&gt; <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt; for &amp;'x mut F</code></li>
-<li><code>impl&lt;'param, F: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;<a class='struct' href='../../identity/lift/struct.LiToTy.html' title='identity::lift::LiToTy'>LiToTy</a>&lt;'param&gt;&gt;&gt; <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt; for <a class='struct' href='../../identity/lift/struct.TyFunToLiFun.html' title='identity::lift::TyFunToLiFun'>TyFunToLiFun</a>&lt;F&gt;</code></li>
-<li><code>impl&lt;'param, TFa, TFb&gt; <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt; for <a class='struct' href='../../identity/lift/struct.Compose.html' title='identity::lift::Compose'>Compose</a>&lt;TFa, TFb&gt; <span class='where'>where TFa: <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt;, TFb: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;TFa::Result&gt;</span></code></li>
-<li><code>impl&lt;'param, X: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>&gt; <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt; for <a class='struct' href='../../identity/lift/struct.Const.html' title='identity::lift::Const'>Const</a>&lt;X&gt;</code></li>
-<li><code>impl&lt;'param, F, G&gt; <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt; for <a class='struct' href='../../identity/lift/struct.Ap.html' title='identity::lift::Ap'>Ap</a>&lt;F, G&gt; <span class='where'>where F: <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt;, G: <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt;, F::Result: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;G::Result&gt;</span></code></li>
+    <li><code>impl&lt;'x, 'param, F: <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt;&gt; LiFun&lt;'param&gt; for &amp;'x F</code></li>
+<li><code>impl&lt;'x, 'param, F: <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt;&gt; LiFun&lt;'param&gt; for &amp;'x mut F</code></li>
+<li><code>impl&lt;'param, F: <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt;&gt; LiFun&lt;'param&gt; for <a class='struct' href='https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;F&gt;</code></li>
+<li><code>impl&lt;'param, F: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;<a class='struct' href='../../identity/lift/struct.LiToTy.html' title='identity::lift::LiToTy'>LiToTy</a>&lt;'param&gt;&gt;&gt; LiFun&lt;'param&gt; for <a class='struct' href='../../identity/lift/struct.TyFunToLiFun.html' title='identity::lift::TyFunToLiFun'>TyFunToLiFun</a>&lt;F&gt;</code></li>
+<li><code>impl&lt;'param, TFa, TFb&gt; LiFun&lt;'param&gt; for <a class='struct' href='../../identity/lift/struct.Compose.html' title='identity::lift::Compose'>Compose</a>&lt;TFa, TFb&gt; <span class='where'>where TFa: <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt;, TFb: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;TFa::Result&gt;</span></code></li>
+<li><code>impl&lt;'param, X: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>&gt; LiFun&lt;'param&gt; for <a class='struct' href='../../identity/lift/struct.Const.html' title='identity::lift::Const'>Const</a>&lt;X&gt;</code></li>
+<li><code>impl&lt;'param, F, G&gt; LiFun&lt;'param&gt; for <a class='struct' href='../../identity/lift/struct.Ap.html' title='identity::lift::Ap'>Ap</a>&lt;F, G&gt; <span class='where'>where F: <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt;, G: <a class='trait' href='../../identity/lift/trait.LiFun.html' title='identity::lift::LiFun'>LiFun</a>&lt;'param&gt;, F::Result: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;G::Result&gt;</span></code></li>
 </ul><script type="text/javascript" async
                          src="../../implementors/identity/lift/trait.LiFun.js">
                  </script></section>
@@ -87,6 +88,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
