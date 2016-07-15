@@ -361,6 +361,16 @@ impl<A: ?Sized, B: ?Sized, F: TysFun<TyPair<A, B>>> TyFun2<A, B> for F {
   type Result = F::Result;
 }
 
+pub type TyTriple<A: ?Sized, B: ?Sized, C: ?Sized> = Cons<A, Cons<B, Cons<C, Nil>>>;
+
+pub trait TyFun3<A: ?Sized, B: ?Sized, C: ?Sized>: Sized + TysFun<TyTriple<A, B, C>> {
+  type Result: ?Sized;
+}
+
+impl<A: ?Sized, B: ?Sized, C: ?Sized, F: TysFun<TyTriple<A, B, C>>> TyFun3<A, B, C> for F {
+  type Result = F::Result;
+}
+
 #[cfg(test)]
 mod test {
   use super::*;
@@ -374,8 +384,8 @@ mod test {
     impl TyFun<i32> for TestFun1 {
       type Result = bool;
     }
-    let x: <<TestFun0 as TyFun<str>>::Result as TyFun<i32>>::Result = true;
-    let y: <<Flip<TestFun0> as TyFun<i32>>::Result as TyFun<str>>::Result = false;
+    let x: <TestFun0 as TyFun2<str, i32>>::Result = true;
+    let y: <Flip<TestFun0> as TyFun2<i32, str>>::Result = false;
     assert!(x && !y)
   }
 }
