@@ -42,15 +42,13 @@ impl<'param> fmt::Debug for LiToTy<'param> {
 }
 
 impl<'param> Clone for LiToTy<'param> {
-  fn clone(&self) -> Self { LiToTy { phantom_fn: self.phantom_fn.clone() } }
-
-  fn clone_from(&mut self, source: &Self) { self.phantom_fn.clone_from(&source.phantom_fn); }
+  fn clone(&self) -> Self { LiToTy::default() }
 }
 
 impl<'param> Copy for LiToTy<'param> {}
 
 impl<'param> Default for LiToTy<'param> {
-  fn default() -> Self { LiToTy { phantom_fn: PhantomData::default() } }
+  fn default() -> Self { LiToTy { phantom_fn: PhantomData } }
 }
 
 impl<'param> hash::Hash for LiToTy<'param> {
@@ -93,8 +91,8 @@ pub fn ty_compose<TFa, TFb>(tf_a: TFa, tf_b: TFb) -> Compose<TFa, TFb> { Compose
 pub fn ty_and_then<TFa, TFb>(tf_a: TFa, tf_b: TFb) -> AndThen<TFa, TFb> { Compose { tf_a: tf_b, tf_b: tf_a } }
 
 impl<Param: ?Sized, TFa, TFb> TyFun<Param> for Compose<TFa, TFb>
-  where TFa: TyFun<Param>, TFb: TyFun<TFa::Result> {
-  type Result = TFb::Result;
+  where TFb: TyFun<Param>, TFa: TyFun<TFb::Result> {
+  type Result = TFa::Result;
 }
 
 impl<'param, TFa, TFb> LiFun<'param> for Compose<TFa, TFb>
@@ -122,15 +120,13 @@ impl<X: ?Sized> fmt::Debug for Const<X> {
 }
 
 impl<X: ?Sized> Clone for Const<X> {
-  fn clone(&self) -> Self { Const { phantom_fn: self.phantom_fn.clone() } }
-
-  fn clone_from(&mut self, source: &Self) { self.phantom_fn.clone_from(&source.phantom_fn); }
+  fn clone(&self) -> Self { Const::default() }
 }
 
 impl<X: ?Sized> Copy for Const<X> {}
 
 impl<X: ?Sized> Default for Const<X> {
-  fn default() -> Self { Const { phantom_fn: PhantomData::default() } }
+  fn default() -> Self { Const { phantom_fn: PhantomData } }
 }
 
 impl<X: ?Sized> hash::Hash for Const<X> {
@@ -140,7 +136,7 @@ impl<X: ?Sized> hash::Hash for Const<X> {
   }
 }
 
-pub fn ty_const<X: ?Sized>() -> Const<X> { Const { phantom_fn: PhantomData } }
+pub fn ty_const<X: ?Sized>() -> Const<X> { Const::default() }
 
 impl<Param: ?Sized, X: ?Sized> TyFun<Param> for Const<X> {
   type Result = X;
@@ -216,7 +212,7 @@ impl<F: Clone, ParamB: ?Sized> Clone for Flipped<F, ParamB> {
   fn clone(&self) -> Self {
     Flipped {
       inner: self.inner.clone(),
-      phantom_fn: self.phantom_fn.clone(),
+      phantom_fn: PhantomData,
     }
   }
 
@@ -232,7 +228,7 @@ impl<F: Default, ParamB: ?Sized> Default for Flipped<F, ParamB> {
   fn default() -> Self {
     Flipped {
       inner: F::default(),
-      phantom_fn: PhantomData::default(),
+      phantom_fn: PhantomData,
     }
   }
 }
@@ -279,22 +275,22 @@ pub trait Forall<TF> {
 pub trait Exists<TF>
   where TF: TyFun<Self::Param>, TF::Result: Sized {
   type Param: ?Sized;
-  
+
   fn value(self) -> TF::Result;
 }
 
 impl<TF, X: Forall<TF>> Pi<TF> for X {
-  fn call<Param>(self, _: Param) -> TF::Result where TF: TyFun<Param>, TF::Result: Sized {
+  fn call<Param>(self, _: Param) -> TF::Result
+    where TF: TyFun<Param>, TF::Result: Sized {
     self.instance()
   }
 }
 
-impl<TF, X: Sigma<TF>> Exists<TF> for X where TF: TyFun<X::Param>, TF::Result: Sized {
+impl<TF, X: Sigma<TF>> Exists<TF> for X
+  where TF: TyFun<X::Param>, TF::Result: Sized {
   type Param = X::Param;
-  
-  fn value(self) -> TF::Result {
-    self.snd()
-  }
+
+  fn value(self) -> TF::Result { self.snd() }
 }
 
 mod aux {
@@ -324,7 +320,7 @@ impl<A: ?Sized, As: TyList> fmt::Debug for Cons<A, As> {
 impl<A: ?Sized, As: TyList> Clone for Cons<A, As> {
   fn clone(&self) -> Self {
     Cons {
-      phantom_fn: self.phantom_fn.clone(),
+      phantom_fn: PhantomData,
       rest: self.rest.clone(),
     }
   }
@@ -340,7 +336,7 @@ impl<A: ?Sized, As: TyList> Copy for Cons<A, As> {}
 impl<A: ?Sized, As: TyList> Default for Cons<A, As> {
   fn default() -> Self {
     Cons {
-      phantom_fn: PhantomData::default(),
+      phantom_fn: PhantomData,
       rest: As::default(),
     }
   }
@@ -376,25 +372,18 @@ impl<Param: ?Sized, Params: TyList, F: TyFun<Param>> TysFun<Cons<Param, Params>>
   type Result = <F::Result as TysFun<Params>>::Result;
 }
 
+#[derive(Debug,Clone,Copy,Default,Hash)]
+pub struct Uncurry<F> {
+  inner: F,
+}
+
+impl<Params: TyList, F: TysFun<Params>> TyFun<Params> for Uncurry<F> {
+  type Result = F::Result;
+}
+
 pub type TyPair<A: ?Sized, B: ?Sized> = Cons<A, Cons<B, Nil>>;
 
-pub trait TyFun2<A: ?Sized, B: ?Sized>: Sized + TysFun<TyPair<A, B>> {
-  type Result: ?Sized;
-}
-
-impl<A: ?Sized, B: ?Sized, F: TysFun<TyPair<A, B>>> TyFun2<A, B> for F {
-  type Result = F::Result;
-}
-
 pub type TyTriple<A: ?Sized, B: ?Sized, C: ?Sized> = Cons<A, Cons<B, Cons<C, Nil>>>;
-
-pub trait TyFun3<A: ?Sized, B: ?Sized, C: ?Sized>: Sized + TysFun<TyTriple<A, B, C>> {
-  type Result: ?Sized;
-}
-
-impl<A: ?Sized, B: ?Sized, C: ?Sized, F: TysFun<TyTriple<A, B, C>>> TyFun3<A, B, C> for F {
-  type Result = F::Result;
-}
 
 #[cfg(test)]
 mod test {
@@ -409,8 +398,8 @@ mod test {
     impl TyFun<i32> for TestFun1 {
       type Result = bool;
     }
-    let x: <TestFun0 as TyFun2<str, i32>>::Result = true;
-    let y: <Flip<TestFun0> as TyFun2<i32, str>>::Result = false;
+    let x: <TestFun0 as TysFun<TyPair<str, i32>>>::Result = true;
+    let y: <Flip<TestFun0> as TysFun<TyPair<i32, str>>>::Result = false;
     assert!(x && !y)
   }
 }

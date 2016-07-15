@@ -19,6 +19,15 @@ use std::{fmt, hash};
 #[macro_use]
 pub mod lift;
 
+pub mod elim_helpers {
+  #[derive(Debug,Clone,Copy,Default,Hash)]
+  pub struct MLReflCase;
+
+  impl<C: ?Sized> super::lift::TyFun<C> for MLReflCase {
+    type Result = super::lift::TyTriple<C, C, super::Refl<C>>;
+  }
+}
+
 /// An identity type; that is, the type bound of “equality witnesses.”
 pub trait Identity<A: ?Sized, B: ?Sized>: Sized {
   type Inverse: Identity<B, A, Inverse = Self>;
@@ -38,9 +47,19 @@ pub trait Identity<A: ?Sized, B: ?Sized>: Sized {
   fn inv(&self) -> &Self::Inverse;
 
   /// Paulin-Mohring's J rule, approximately.
-  fn elim<Prop: lift::TyFun2<A, Refl<A>> + lift::TyFun2<B, Self>>
-    (&self, refl_case: <Prop as lift::TyFun2<A, Refl<A>>>::Result) -> <Prop as lift::TyFun2<B, Self>>::Result
-    where <Prop as lift::TyFun2<A, Refl<A>>>::Result: Sized, <Prop as lift::TyFun2<B, Self>>::Result: Sized;
+  fn elim<Prop: lift::TysFun<lift::TyPair<A, Refl<A>>> + lift::TysFun<lift::TyPair<B, Self>>>
+    (&self,
+     refl_case: <Prop as lift::TysFun<lift::TyPair<A, Refl<A>>>>::Result)
+     -> <Prop as lift::TysFun<lift::TyPair<B, Self>>>::Result
+    where <Prop as lift::TysFun<lift::TyPair<A, Refl<A>>>>::Result: Sized, <Prop as lift::TysFun<lift::TyPair<B, Self>>>::Result: Sized;
+
+  /// Martin-Löf's J rule, approximately.
+  fn elim_alt<Prop: lift::TysFun<lift::TyTriple<A, B, Self>>,
+              ReflCase: lift::Forall<lift::AndThen<elim_helpers::MLReflCase, lift::Uncurry<Prop>>>>
+    (&self,
+     refl_case: ReflCase)
+     -> <Prop as lift::TysFun<lift::TyTriple<A, B, Self>>>::Result
+    where <Prop as lift::TysFun<lift::TyTriple<A, B, Self>>>::Result: Sized;
 }
 
 pub fn refl<A: ?Sized>() -> Refl<A> { Refl::default() }
@@ -88,11 +107,20 @@ impl<A: ?Sized> Identity<A, A> for Refl<A> {
     x
   }
 
-  fn elim<Prop: lift::TyFun2<A, Refl<A>>>(&self,
-                                          refl_case: <Prop as lift::TyFun2<A, Refl<A>>>::Result)
-                                          -> <Prop as lift::TyFun2<A, Refl<A>>>::Result
-    where <Prop as lift::TyFun2<A, Refl<A>>>::Result: Sized {
+  fn elim<Prop: lift::TysFun<lift::TyPair<A, Refl<A>>>>(&self,
+                                          refl_case: <Prop as lift::TysFun<lift::TyPair<A, Refl<A>>>>::Result)
+                                          -> <Prop as lift::TysFun<lift::TyPair<A, Refl<A>>>>::Result
+    where <Prop as lift::TysFun<lift::TyPair<A, Refl<A>>>>::Result: Sized {
     refl_case
+  }
+
+  fn elim_alt<Prop: lift::TysFun<lift::TyTriple<A, A, Refl<A>>>,
+              ReflCase: lift::Forall<lift::AndThen<elim_helpers::MLReflCase, lift::Uncurry<Prop>>>>
+    (&self,
+     refl_case: ReflCase)
+     -> <Prop as lift::TysFun<lift::TyTriple<A, A, Refl<A>>>>::Result
+    where <Prop as lift::TysFun<lift::TyTriple<A, A, Refl<A>>>>::Result: Sized {
+    refl_case.instance::<A>()
   }
 }
 
