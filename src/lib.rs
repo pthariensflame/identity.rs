@@ -41,9 +41,9 @@ pub trait Identity<A: ?Sized, B: ?Sized>: Sized {
   fn elim<Prop: lift::TyFun2<A, Refl<A>> + lift::TyFun2<B, Self>>
     (&self, refl_case: <Prop as lift::TyFun2<A, Refl<A>>>::Result) -> <Prop as lift::TyFun2<B, Self>>::Result
     where <Prop as lift::TyFun2<A, Refl<A>>>::Result: Sized, <Prop as lift::TyFun2<B, Self>>::Result: Sized;
-pub fn refl<A: ?Sized>() -> Refl<A> {
-  Refl::default()
 }
+
+pub fn refl<A: ?Sized>() -> Refl<A> { Refl::default() }
 
 pub struct Refl<A: ?Sized> {
   phantom_fn: PhantomData<fn(A) -> A>,
@@ -89,8 +89,8 @@ impl<A: ?Sized> Identity<A, A> for Refl<A> {
   }
 
   fn elim<Prop: lift::TyFun2<A, Refl<A>>>(&self,
-                                              refl_case: <Prop as lift::TyFun2<A, Refl<A>>>::Result)
-                                              -> <Prop as lift::TyFun2<A, Refl<A>>>::Result
+                                          refl_case: <Prop as lift::TyFun2<A, Refl<A>>>::Result)
+                                          -> <Prop as lift::TyFun2<A, Refl<A>>>::Result
     where <Prop as lift::TyFun2<A, Refl<A>>>::Result: Sized {
     refl_case
   }
