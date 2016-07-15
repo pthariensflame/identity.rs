@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `ty_list!` macro in crate `identity`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, ty_list!">
+    <meta name="description" content="API documentation for the Rust `refl` fn in crate `identity`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, refl">
 
-    <title>identity::ty_list! - Rust</title>
+    <title>identity::refl - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
@@ -28,7 +28,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='index.html'>identity</a></p><script>window.sidebarCurrent = {name: 'ty_list!', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'><a href='index.html'>identity</a></p><script>window.sidebarCurrent = {name: 'refl', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,18 +42,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content macro">
-<h1 class='fqn'><span class='in-band'><a href='index.html'>identity</a>::<wbr><a class='macro' href=''>ty_list!</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content fn">
+<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>identity</a>::<wbr><a class='fn' href=''>refl</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-656' class='srclink' href='../src/identity/src/lift.rs.html#336-339' title='goto source code'>[src]</a></span></h1>
-<pre class='rust macro'>
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>ty_list</span> {
-    () <span class='op'>=&gt;</span> { ... };
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>A</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>As</span>:<span class='ident'>tt</span>) <span class='op'>=&gt;</span> { ... };
-}</pre>
-</section>
+               </span><a id='src-595' class='srclink' href='../src/identity/src/lib.rs.html#46' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn refl&lt;A:&nbsp;?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>&gt;() -&gt; <a class='struct' href='../identity/struct.Refl.html' title='identity::Refl'>Refl</a>&lt;A&gt;</pre></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
