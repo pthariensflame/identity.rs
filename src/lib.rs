@@ -19,39 +19,9 @@ use std::{fmt, hash};
 #[macro_use]
 pub mod lift;
 
-mod aux {
-  pub trait IdentityAux<A: ?Sized, B: ?Sized> {
-    type InverseAux: ?Sized + super::Identity<B, A, InverseAux = Self, Inverse = Self>;
-
-    fn conv_aux(&self, x: A) -> B where A: Sized, B: Sized;
-
-    fn conv_ref_aux<'a>(&self, x: &'a A) -> &'a B;
-
-    fn conv_mut_aux<'a>(&self, x: &'a mut A) -> &'a mut B;
-
-    fn conv_box_aux(&self, x: Box<A>) -> Box<B>;
-
-    fn conv_under_aux<TF: super::lift::TyFun<A> + super::lift::TyFun<B>>
-      (&self, x: <TF as super::lift::TyFun<A>>::Result) -> <TF as super::lift::TyFun<B>>::Result
-      where <TF as super::lift::TyFun<A>>::Result: Sized, <TF as super::lift::TyFun<B>>::Result: Sized;
-
-    fn inv_aux(&self) -> &Self::InverseAux;
-
-    fn elim_aux<Prop: super::lift::TyFun2<A, super::Refl<A>> + super::lift::TyFun2<B, Self>>
-      (&self,
-       refl_case: <Prop as super::lift::TyFun2<A, super::Refl<A>>>::Result)
-       -> <Prop as super::lift::TyFun2<B, Self>>::Result
-      where <Prop as super::lift::TyFun2<A, super::Refl<A>>>::Result: Sized, <Prop as super::lift::TyFun2<B, Self>>::Result: Sized;
-  }
-}
-
-/// An identity type; that is, the type of “equality witnesses.”
-///
-/// This trait is not actually extensible; it relies on a hidden auxiliary trait to operate
-/// properly while maintaining its invariants.  It should instead be thought of as a semi-magical
-/// bound that all concrete equality witness types satisfy.
-pub trait Identity<A: ?Sized, B: ?Sized>: aux::IdentityAux<A, B> {
-  type Inverse: ?Sized + Identity<B, A, Inverse = Self>;
+/// An identity type; that is, the type bound of “equality witnesses.”
+pub trait Identity<A: ?Sized, B: ?Sized>: Sized {
+  type Inverse: Identity<B, A, Inverse = Self>;
 
   fn conv(&self, x: A) -> B where A: Sized, B: Sized;
 
@@ -71,34 +41,6 @@ pub trait Identity<A: ?Sized, B: ?Sized>: aux::IdentityAux<A, B> {
   fn elim<Prop: lift::TyFun2<A, Refl<A>> + lift::TyFun2<B, Self>>
     (&self, refl_case: <Prop as lift::TyFun2<A, Refl<A>>>::Result) -> <Prop as lift::TyFun2<B, Self>>::Result
     where <Prop as lift::TyFun2<A, Refl<A>>>::Result: Sized, <Prop as lift::TyFun2<B, Self>>::Result: Sized;
-}
-
-impl<A: ?Sized, B: ?Sized, Ev: ?Sized + aux::IdentityAux<A, B>> Identity<A, B> for Ev {
-  type Inverse = Self::InverseAux;
-
-  fn conv(&self, x: A) -> B
-    where A: Sized, B: Sized {
-    self.conv_aux(x)
-  }
-
-  fn conv_ref<'a>(&self, x: &'a A) -> &'a B { self.conv_ref_aux(x) }
-
-  fn conv_mut<'a>(&self, x: &'a mut A) -> &'a mut B { self.conv_mut_aux(x) }
-
-  fn conv_box(&self, x: Box<A>) -> Box<B> { self.conv_box_aux(x) }
-
-  fn conv_under<TF: lift::TyFun<A> + lift::TyFun<B>>(&self, x: <TF as lift::TyFun<A>>::Result) -> <TF as lift::TyFun<B>>::Result
-    where <TF as lift::TyFun<A>>::Result: Sized, <TF as lift::TyFun<B>>::Result: Sized {
-    self.conv_under_aux::<TF>(x)
-  }
-
-  fn inv(&self) -> &Ev::InverseAux { self.inv_aux() }
-
-  fn elim<Prop: lift::TyFun2<A, Refl<A>> + lift::TyFun2<B, Ev>>
-    (&self, refl_case: <Prop as lift::TyFun2<A, Refl<A>>>::Result) -> <Prop as lift::TyFun2<B, Ev>>::Result
-    where <Prop as lift::TyFun2<A, Refl<A>>>::Result: Sized, <Prop as lift::TyFun2<B, Ev>>::Result: Sized {
-    self.elim_aux::<Prop>(refl_case)
-  }
 }
 
 pub struct Refl<A: ?Sized> {
@@ -125,28 +67,28 @@ impl<A: ?Sized> hash::Hash for Refl<A> {
   fn hash<H: hash::Hasher>(&self, hshr: &mut H) { self.phantom_fn.hash(hshr); }
 }
 
-impl<A: ?Sized> aux::IdentityAux<A, A> for Refl<A> {
-  type InverseAux = Self;
+impl<A: ?Sized> Identity<A, A> for Refl<A> {
+  type Inverse = Self;
 
-  fn conv_aux(&self, x: A) -> A
+  fn conv(&self, x: A) -> A
     where A: Sized {
     x
   }
 
-  fn conv_ref_aux<'a>(&self, x: &'a A) -> &'a A { x }
+  fn conv_ref<'a>(&self, x: &'a A) -> &'a A { x }
 
-  fn conv_mut_aux<'a>(&self, x: &'a mut A) -> &'a mut A { x }
+  fn conv_mut<'a>(&self, x: &'a mut A) -> &'a mut A { x }
 
-  fn conv_box_aux(&self, x: Box<A>) -> Box<A> { x }
+  fn conv_box(&self, x: Box<A>) -> Box<A> { x }
 
-  fn inv_aux(&self) -> &Self { self }
+  fn inv(&self) -> &Self { self }
 
-  fn conv_under_aux<TF: lift::TyFun<A>>(&self, x: TF::Result) -> TF::Result
+  fn conv_under<TF: lift::TyFun<A>>(&self, x: TF::Result) -> TF::Result
     where TF::Result: Sized {
     x
   }
 
-  fn elim_aux<Prop: lift::TyFun2<A, Refl<A>>>(&self,
+  fn elim<Prop: lift::TyFun2<A, Refl<A>>>(&self,
                                               refl_case: <Prop as lift::TyFun2<A, Refl<A>>>::Result)
                                               -> <Prop as lift::TyFun2<A, Refl<A>>>::Result
     where <Prop as lift::TyFun2<A, Refl<A>>>::Result: Sized {
