@@ -41,6 +41,8 @@ pub trait Identity<A: ?Sized, B: ?Sized>: Sized {
   fn elim<Prop: lift::TyFun2<A, Refl<A>> + lift::TyFun2<B, Self>>
     (&self, refl_case: <Prop as lift::TyFun2<A, Refl<A>>>::Result) -> <Prop as lift::TyFun2<B, Self>>::Result
     where <Prop as lift::TyFun2<A, Refl<A>>>::Result: Sized, <Prop as lift::TyFun2<B, Self>>::Result: Sized;
+pub fn refl<A: ?Sized>() -> Refl<A> {
+  Refl::default()
 }
 
 pub struct Refl<A: ?Sized> {
@@ -52,9 +54,7 @@ impl<A: ?Sized> fmt::Debug for Refl<A> {
 }
 
 impl<A: ?Sized> Clone for Refl<A> {
-  fn clone(&self) -> Refl<A> { Refl { phantom_fn: self.phantom_fn } }
-
-  fn clone_from(&mut self, source: &Refl<A>) { self.phantom_fn.clone_from(&source.phantom_fn); }
+  fn clone(&self) -> Refl<A> { refl() }
 }
 
 impl<A: ?Sized> Copy for Refl<A> {}
@@ -105,7 +105,7 @@ pub trait Equals<Other: ?Sized> {
 impl<T: ?Sized> Equals<T> for T {
   type IdentityWitness = Refl<T>;
 
-  fn identity_witness() -> Refl<T> { Refl::default() }
+  fn identity_witness() -> Refl<T> { refl() }
 }
 
 #[cfg(test)]
