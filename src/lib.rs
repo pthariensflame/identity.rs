@@ -13,6 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#![allow(unknown_lints)]
 use std::marker::PhantomData;
 use std::{fmt, hash};
 
@@ -72,6 +73,7 @@ impl<A: ?Sized> fmt::Debug for Refl<A> {
   fn fmt(&self, fmtr: &mut fmt::Formatter) -> fmt::Result { fmtr.debug_struct("Refl").field("phantom_fn", &self.phantom_fn).finish() }
 }
 
+#[allow(expl_impl_clone_on_copy)]
 impl<A: ?Sized> Clone for Refl<A> {
   fn clone(&self) -> Refl<A> { refl() }
 }

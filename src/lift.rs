@@ -1,3 +1,4 @@
+#![allow(unknown_lints)]
 use std::marker::PhantomData;
 use std::{fmt, hash};
 
@@ -41,6 +42,7 @@ impl<'param> fmt::Debug for LiToTy<'param> {
   fn fmt(&self, fmtr: &mut fmt::Formatter) -> fmt::Result { fmtr.debug_struct("LiToTy").field("phantom_fn", &self.phantom_fn).finish() }
 }
 
+#[allow(expl_impl_clone_on_copy)]
 impl<'param> Clone for LiToTy<'param> {
   fn clone(&self) -> Self { LiToTy::default() }
 }
@@ -119,6 +121,7 @@ impl<X: ?Sized> fmt::Debug for Const<X> {
   fn fmt(&self, fmtr: &mut fmt::Formatter) -> fmt::Result { fmtr.debug_struct("Const").field("phantom_fn", &self.phantom_fn).finish() }
 }
 
+#[allow(expl_impl_clone_on_copy)]
 impl<X: ?Sized> Clone for Const<X> {
   fn clone(&self) -> Self { Const::default() }
 }
@@ -208,7 +211,9 @@ impl<F: fmt::Debug, ParamB: ?Sized> fmt::Debug for Flipped<F, ParamB> {
   }
 }
 
+#[allow(expl_impl_clone_on_copy)]
 impl<F: Clone, ParamB: ?Sized> Clone for Flipped<F, ParamB> {
+  #[allow(clone_on_copy)]
   fn clone(&self) -> Self {
     Flipped {
       inner: self.inner.clone(),
@@ -317,7 +322,9 @@ impl<A: ?Sized, As: TyList> fmt::Debug for Cons<A, As> {
   }
 }
 
+#[allow(expl_impl_clone_on_copy)]
 impl<A: ?Sized, As: TyList> Clone for Cons<A, As> {
+  #[allow(clone_on_copy)]
   fn clone(&self) -> Self {
     Cons {
       phantom_fn: PhantomData,
