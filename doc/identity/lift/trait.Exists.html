@@ -47,21 +47,21 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-476' class='srclink' href='../../src/identity/src/lift.rs.html#266-273' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait Exists&lt;TF&gt; <span class='where'>where TF: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;Self::A&gt;, TF::Result: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span> {
-    type <a href='#associatedtype.A' class='type'>A</a>;
-    fn <a href='#tymethod.fst' class='fnname'>fst</a>(self) -&gt; Self::A;
-    fn <a href='#tymethod.snd' class='fnname'>snd</a>(self) -&gt; TF::Result;
+               </span><a id='src-482' class='srclink' href='../../src/identity/src/lift.rs.html#280-285' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Exists&lt;TF&gt; <span class='where'>where TF: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;Self::Param&gt;, TF::Result: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span> {
+    type <a href='#associatedtype.Param' class='type'>Param</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>;
+    fn <a href='#tymethod.value' class='fnname'>value</a>(self) -&gt; TF::Result;
 }</pre>
             <h2 id='associated-types'>Associated Types</h2>
             <div class='methods'>
-        <h3 id='associatedtype.A' class='method stab '><code>type <a href='#associatedtype.A' class='type'>A</a></code></h3></div>
+        <h3 id='associatedtype.Param' class='method stab '><code>type <a href='#associatedtype.Param' class='type'>Param</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></code></h3></div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.fst' class='method stab '><code>fn <a href='#tymethod.fst' class='fnname'>fst</a>(self) -&gt; Self::A</code></h3><h3 id='tymethod.snd' class='method stab '><code>fn <a href='#tymethod.snd' class='fnname'>snd</a>(self) -&gt; TF::Result</code></h3></div>
+        <h3 id='tymethod.value' class='method stab '><code>fn <a href='#tymethod.value' class='fnname'>value</a>(self) -&gt; TF::Result</code></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    </ul><script type="text/javascript" async
+    <li><code>impl&lt;TF,&nbsp;X:&nbsp;<a class='trait' href='../../identity/lift/trait.Sigma.html' title='identity::lift::Sigma'>Sigma</a>&lt;TF&gt;&gt; Exists&lt;TF&gt; for X <span class='where'>where TF: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;X::Param&gt;, TF::Result: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span></code></li>
+</ul><script type="text/javascript" async
                          src="../../implementors/identity/lift/trait.Exists.js">
                  </script></section>
     <section id='search' class="content hidden"></section>

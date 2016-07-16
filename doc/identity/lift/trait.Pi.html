@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `ty_id` fn in crate `identity`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, ty_id">
+    <meta name="description" content="API documentation for the Rust `Pi` trait in crate `identity`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Pi">
 
-    <title>identity::lift::ty_id - Rust</title>
+    <title>identity::lift::Pi - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
@@ -28,7 +28,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a></p><script>window.sidebarCurrent = {name: 'ty_id', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'><a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a></p><script>window.sidebarCurrent = {name: 'Pi', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,13 +42,24 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a>::<wbr><a class='fn' href=''>ty_id</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a>::<wbr><a class='trait' href=''>Pi</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-207' class='srclink' href='../../src/identity/src/lift.rs.html#109' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn ty_id() -&gt; <a class='struct' href='../../identity/lift/struct.Id.html' title='identity::lift::Id'>Id</a></pre></section>
+               </span><a id='src-464' class='srclink' href='../../src/identity/src/lift.rs.html#263-265' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Pi&lt;TF&gt; {
+    fn <a href='#tymethod.call' class='fnname'>call</a>&lt;Param&gt;(self, x: Param) -&gt; TF::Result <span class='where'>where TF: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;Param&gt;, TF::Result: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span>;
+}</pre>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.call' class='method stab '><code>fn <a href='#tymethod.call' class='fnname'>call</a>&lt;Param&gt;(self, x: Param) -&gt; TF::Result <span class='where'>where TF: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;Param&gt;, TF::Result: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span></code></h3></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl&lt;TF,&nbsp;X:&nbsp;<a class='trait' href='../../identity/lift/trait.Forall.html' title='identity::lift::Forall'>Forall</a>&lt;TF&gt;&gt; Pi&lt;TF&gt; for X</code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/identity/lift/trait.Pi.js">
+                 </script></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

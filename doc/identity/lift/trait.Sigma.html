@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `TyFun2` trait in crate `identity`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, TyFun2">
+    <meta name="description" content="API documentation for the Rust `Sigma` trait in crate `identity`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Sigma">
 
-    <title>identity::lift::TyFun2 - Rust</title>
+    <title>identity::lift::Sigma - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
@@ -28,7 +28,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a></p><script>window.sidebarCurrent = {name: 'TyFun2', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'><a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a></p><script>window.sidebarCurrent = {name: 'Sigma', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -43,22 +43,26 @@
     </nav>
 
     <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a>::<wbr><a class='trait' href=''>TyFun2</a></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>identity</a>::<wbr><a href='index.html'>lift</a>::<wbr><a class='trait' href=''>Sigma</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-558' class='srclink' href='../../src/identity/src/lift.rs.html#356-358' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait TyFun2&lt;A:&nbsp;?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>,&nbsp;B:&nbsp;?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>&gt;: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> + <a class='trait' href='../../identity/lift/trait.TysFun.html' title='identity::lift::TysFun'>TysFun</a>&lt;<a class='type' href='../../identity/lift/type.TyPair.html' title='identity::lift::TyPair'>TyPair</a>&lt;A,&nbsp;B&gt;&gt; {
-    type <a href='#associatedtype.Result' class='type'>Result</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>;
+               </span><a id='src-470' class='srclink' href='../../src/identity/src/lift.rs.html#267-274' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Sigma&lt;TF&gt; <span class='where'>where TF: <a class='trait' href='../../identity/lift/trait.TyFun.html' title='identity::lift::TyFun'>TyFun</a>&lt;Self::Param&gt;, TF::Result: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span> {
+    type <a href='#associatedtype.Param' class='type'>Param</a>;
+    fn <a href='#tymethod.fst' class='fnname'>fst</a>(self) -&gt; Self::Param;
+    fn <a href='#tymethod.snd' class='fnname'>snd</a>(self) -&gt; TF::Result;
 }</pre>
             <h2 id='associated-types'>Associated Types</h2>
             <div class='methods'>
-        <h3 id='associatedtype.Result' class='method stab '><code>type <a href='#associatedtype.Result' class='type'>Result</a>: ?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></code></h3></div>
+        <h3 id='associatedtype.Param' class='method stab '><code>type <a href='#associatedtype.Param' class='type'>Param</a></code></h3></div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.fst' class='method stab '><code>fn <a href='#tymethod.fst' class='fnname'>fst</a>(self) -&gt; Self::Param</code></h3><h3 id='tymethod.snd' class='method stab '><code>fn <a href='#tymethod.snd' class='fnname'>snd</a>(self) -&gt; TF::Result</code></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl&lt;A:&nbsp;?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>,&nbsp;B:&nbsp;?<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>,&nbsp;F:&nbsp;<a class='trait' href='../../identity/lift/trait.TysFun.html' title='identity::lift::TysFun'>TysFun</a>&lt;<a class='type' href='../../identity/lift/type.TyPair.html' title='identity::lift::TyPair'>TyPair</a>&lt;A,&nbsp;B&gt;&gt;&gt; TyFun2&lt;A,&nbsp;B&gt; for F</code></li>
-</ul><script type="text/javascript" async
-                         src="../../implementors/identity/lift/trait.TyFun2.js">
+    </ul><script type="text/javascript" async
+                         src="../../implementors/identity/lift/trait.Sigma.js">
                  </script></section>
     <section id='search' class="content hidden"></section>
 
