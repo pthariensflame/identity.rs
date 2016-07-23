@@ -260,19 +260,6 @@ impl<F> TyFun<F> for FlipTyFun {
   type Result = Flip<F>;
 }
 
-pub trait Pi<TF> {
-  fn call<Param>(self, x: Param) -> TF::Result where TF: TyFun<Param>, TF::Result: Sized;
-}
-
-pub trait Sigma<TF>
-  where TF: TyFun<Self::Param>, TF::Result: Sized {
-  type Param;
-
-  fn fst(self) -> Self::Param;
-
-  fn snd(self) -> TF::Result;
-}
-
 pub trait Forall<TF> {
   fn instance<Param: ?Sized>(self) -> TF::Result where TF: TyFun<Param>, TF::Result: Sized;
 }
@@ -282,20 +269,6 @@ pub trait Exists<TF>
   type Param: ?Sized;
 
   fn value(self) -> TF::Result;
-}
-
-impl<TF, X: Forall<TF>> Pi<TF> for X {
-  fn call<Param>(self, _: Param) -> TF::Result
-    where TF: TyFun<Param>, TF::Result: Sized {
-    self.instance()
-  }
-}
-
-impl<TF, X: Sigma<TF>> Exists<TF> for X
-  where TF: TyFun<X::Param>, TF::Result: Sized {
-  type Param = X::Param;
-
-  fn value(self) -> TF::Result { self.snd() }
 }
 
 mod aux {
